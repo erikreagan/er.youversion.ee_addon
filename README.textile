@@ -1,8 +1,11 @@
-h1. YouVersion Plugin
+h1. ExpressionEngine YouVersion Plugin
 
 The YouVersion ExpressionEngine plugin gives you the ability to quickly link to Bible verses using a simple tag structure that's familiar to ExpressionEngine. This plugin was originally written by Dan Frist ("@danfrist":http://twitter.com/danfrist) "for WordPress":http://blog.youversion.com/post/583/new-youversion-wordpress-plugin-available-now and was ported over to ExpressionEngine by Erik Reagan ("@erikreagan":http://twitter.com/erikreagan).
 
 
+h2. Instructions
+
+Copy pi.youversion.php to your system/plugins directory
 
 h2. Usage
 
