@@ -5,11 +5,11 @@ The YouVersion ExpressionEngine plugin gives you the ability to quickly link to 
 
 h2. Instructions
 
-Copy pi.youversion.php to your system/plugins directory
+Copy <code>pi.youversion.php</code> to your <code>system/plugins</code> directory
 
 h2. Usage
 
-By wrapping your content in {exp:youversion} tags you can automatically link up scripture references to youversion.com.
+By wrapping your content in <code>{exp:youversion}</code> tags you can automatically link up scripture references to youversion.com.
 
 h3. Examples
 
