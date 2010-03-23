@@ -7,7 +7,7 @@
  * system/plugins/ folder in your ExpressionEngine installation.
  *
  * @package Youversion
- * @version 1.0.0
+ * @version 1.0.1
  * @author Erik Reagan http://erikreagan.com
  * @author Dan Frist original author of WP plugin
  * @copyright Copyright (c) 2010 Erik Reagan
@@ -16,7 +16,7 @@
 
 $plugin_info       = array(
    'pi_name'        => 'YouVersion',
-   'pi_version'     => '1.0.0',
+   'pi_version'     => '1.0.1',
    'pi_author'      => 'Dan Frist, Erik Reagan',
    'pi_author_url'  => 'http://youversion.com',
    'pi_description' => 'Automatically link scripture references to YouVersion',
