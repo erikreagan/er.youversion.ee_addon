@@ -56,7 +56,7 @@ class Youversion
          'Psalms'          => 'Ps',
          'Proverbs'        => 'Prov',
          'Ecclesiastes'    => 'Eccl',
-         'Song of Solomon' > 'Song',
+         'Song of Solomon' => 'Song',
          'Isaiah'          => 'Isa',
          'Jeremiah'        => 'Jer',
          'Lamentations'    => 'Lam',
