@@ -1,6 +1,5 @@
 <?php
-
-// ini_set('display_errors',E_ALL);
+ini_set('display_errors',E_ALL);
 
 /**
  * Youversion
@@ -9,7 +8,7 @@
  * system/plugins/ folder in your ExpressionEngine installation.
  *
  * @package Youversion
- * @version 1.0.2
+ * @version 1.0.1
  * @author Erik Reagan http://erikreagan.com
  * @author Dan Frist original author of WP plugin
  * @copyright Copyright (c) 2010 Erik Reagan
@@ -18,141 +17,152 @@
 
 $plugin_info       = array(
    'pi_name'        => 'YouVersion',
-   'pi_version'     => '1.0.2',
+   'pi_version'     => '1.0.1',
    'pi_author'      => 'Dan Frist, Erik Reagan',
    'pi_author_url'  => 'http://youversion.com',
    'pi_description' => 'Automatically link scripture references to YouVersion',
    'pi_usage'       => Youversion::usage()
    );
    
-/**
- * Callback function to turn reference into a link
- *
- * @param      string
- * @access     public
- * @since      1.1.0
- * @return     string
- */
-function create_link($match)
-{
-   
-   global $TMPL;
-
-   // List of books and their abbreviations  (OSIS)
-   $osis = array(
-      'Genesis'         => 'Gen',
-      'Exodus'          => 'Exod',
-      'Leviticus'       => 'Lev',
-      'Numbers'         => 'Num',
-      'Deuteronomy'     => 'Deut',
-      'Joshua'          => 'Josh',
-      'Judges'          => 'Judg',
-      'Ruth'            => 'Ruth',
-      '1 Samuel'        => '1Sam',
-      '2 Samuel'        => '2Sam',
-      '1 Kings'         => '1Kgs',
-      '2 Kings'         => '2Kgs',
-      '1 Chronicles'    => '1Chr',
-      '2 Chronicles'    => '2Chr',
-      'Ezra'            => 'Ezra',
-      'Nehemiah'        => 'Neh',
-      'Esther'          => 'Esth',
-      'Job'             => 'Job',
-      'Psalms'          => 'Ps',
-      'Proverbs'        => 'Prov',
-      'Ecclesiastes'    => 'Eccl',
-      'Song of Solomon' => 'Song',
-      'Isaiah'          => 'Isa',
-      'Jeremiah'        => 'Jer',
-      'Lamentations'    => 'Lam',
-      'Ezekiel'         =>'Ezek',
-      'Daniel'          => 'Dan',
-      'Hosea'           => 'Hos',
-      'Joel'            => 'Joel',
-      'Amos'            => 'Amos',
-      'Obadiah'         => 'Obad',
-      'Jonah'           => 'Jonah',
-      'Micah'           => 'Mic',
-      'Nahum'           => 'Nah',
-      'Habakkuk'        => 'Hab',
-      'Zephaniah'       => 'Zeph',
-      'Haggai'          => 'Hag',
-      'Zechariah'       => 'Zech',
-      'Malachi'         => 'Mal',
-      'Matthew'         => 'Matt',
-      'Mark'            => 'Mark',
-      'Luke'            => 'Luke',
-      'John'            => 'John',
-      'Acts'            => 'Acts',
-      'Romans'          => 'Rom',
-      '1 Corinthians'   => '1Cor',
-      '2 Corinthians'   => '2Cor',
-      'Galatians'       => 'Gal',
-      'Ephesians'       => 'Eph',
-      'Philippians'     => 'Phil',
-      'Colossians'      => 'Col',
-      '1 Thessalonians' =>'1Thess',
-      '2 Thessalonians' => '2Thess',
-      '1 Timothy'       => '1Tim',
-      '2 Timothy'       => '2Tim',
-      'Titus'           => 'Titus',
-      'Philemon'        => 'Phlm',
-      'Hebrews'         => 'Heb',
-      'James'           => 'Jas',
-      '1 Peter'         => '1Pet',
-      '2 Peter'         => '2Pet',
-      '1 John'          => '1John',
-      '2 John'          => '2John',
-      '3 John'          => '3John',
-      'Jude'            => 'Jude',
-      'Revelation'      => 'Rev'
-   );
-   
-   
-   // Define the class to be added to our anchor tag
-   $class = ($TMPL->fetch_param('class') !== FALSE) ? $TMPL->fetch_param('class') : 'youversion_link' ;
-   // Define the version to be used
-   $version = ($TMPL->fetch_param('version') !== FALSE) ? $TMPL->fetch_param('version') : 'niv' ;
-   
-   // Change book name to abbreviated book name
-	foreach($osis as $key => $value)
-	{
-		if(stristr($match[1], $key) !== FALSE )
-		{
-			$reference_link = str_replace($key, $value . '/', $match[1]);
-			break;
-		}
-	}
-
-	// Change semicolon (:) to a forward slash (/)
-	$reference_link = str_replace( ':', '/', $reference_link );
-
-	// Remove any spaces
-	$reference_link = str_replace( ' ', '', $reference_link );
-
-	// Put the text in the tag in a link with our class and return the string
-	return '<a href="http://www.youversion.com/bible/' . $version . '/' . $reference_link . '" class="'.$class.'">' . $match[1] . '</a>';
-      
-}
-
-
 
 class Youversion
 {
 
    var $return_data  = "";
 
+   
+   /**
+    * Turn reference into a link
+    *
+    * @param      string
+    * @access     public
+    * @since      1.1.0
+    * @return     string
+    */
+   function create_link($matches)
+   {
+      
+      global $TMPL;
+      
+      echo "<pre>";
+      print_r($matches);
+      echo "</pre>";
+      exit;
+      
+      
+      // List of books and their abbreviations  (OSIS)
+      $osis = array(
+         'Genesis'         => 'Gen',
+         'Exodus'          => 'Exod',
+         'Leviticus'       => 'Lev',
+         'Numbers'         => 'Num',
+         'Deuteronomy'     => 'Deut',
+         'Joshua'          => 'Josh',
+         'Judges'          => 'Judg',
+         'Ruth'            => 'Ruth',
+         '1 Samuel'        => '1Sam',
+         '2 Samuel'        => '2Sam',
+         '1 Kings'         => '1Kgs',
+         '2 Kings'         => '2Kgs',
+         '1 Chronicles'    => '1Chr',
+         '2 Chronicles'    => '2Chr',
+         'Ezra'            => 'Ezra',
+         'Nehemiah'        => 'Neh',
+         'Esther'          => 'Esth',
+         'Job'             => 'Job',
+         'Psalms'          => 'Ps',
+         'Proverbs'        => 'Prov',
+         'Ecclesiastes'    => 'Eccl',
+         'Song of Solomon' => 'Song',
+         'Isaiah'          => 'Isa',
+         'Jeremiah'        => 'Jer',
+         'Lamentations'    => 'Lam',
+         'Ezekiel'         =>'Ezek',
+         'Daniel'          => 'Dan',
+         'Hosea'           => 'Hos',
+         'Joel'            => 'Joel',
+         'Amos'            => 'Amos',
+         'Obadiah'         => 'Obad',
+         'Jonah'           => 'Jonah',
+         'Micah'           => 'Mic',
+         'Nahum'           => 'Nah',
+         'Habakkuk'        => 'Hab',
+         'Zephaniah'       => 'Zeph',
+         'Haggai'          => 'Hag',
+         'Zechariah'       => 'Zech',
+         'Malachi'         => 'Mal',
+         'Matthew'         => 'Matt',
+         'Mark'            => 'Mark',
+         'Luke'            => 'Luke',
+         'John'            => 'John',
+         'Acts'            => 'Acts',
+         'Romans'          => 'Rom',
+         '1 Corinthians'   => '1Cor',
+         '2 Corinthians'   => '2Cor',
+         'Galatians'       => 'Gal',
+         'Ephesians'       => 'Eph',
+         'Philippians'     => 'Phil',
+         'Colossians'      => 'Col',
+         '1 Thessalonians' =>'1Thess',
+         '2 Thessalonians' => '2Thess',
+         '1 Timothy'       => '1Tim',
+         '2 Timothy'       => '2Tim',
+         'Titus'           => 'Titus',
+         'Philemon'        => 'Phlm',
+         'Hebrews'         => 'Heb',
+         'James'           => 'Jas',
+         '1 Peter'         => '1Pet',
+         '2 Peter'         => '2Pet',
+         '1 John'          => '1John',
+         '2 John'          => '2John',
+         '3 John'          => '3John',
+         'Jude'            => 'Jude',
+         'Revelation'      => 'Rev'
+      );
+      
+      
+      // Define the class to be added to our anchor tag
+      $class = ($TMPL->fetch_param('class') !== FALSE) ? $TMPL->fetch_param('class') : 'youversion_link' ;
+      
+      
+      foreach ($matches as $match) {
+         
+         // Change book name to abbreviated book name
+   		foreach($osis as $key => $value)
+   		{
+   			if(stristr($match, $key) !== FALSE )
+   			{
+   				$reference_link = str_replace($key, $value . '/', $match);
+   				break;
+   			}
+   		}
+
+   		// Change semicolon (:) to a forward slash (/)
+   		$reference_link = str_replace( ':', '/', $reference_link );
+
+   		// Remove any spaces
+   		$reference_link = str_replace( ' ', '', $reference_link );
+
+   		// Put the text in the tag in a link with our class
+   		$match = '<a href="http://www.youversion.com/bible/' . $version . '/' . $reference_link . '" class="'.$class.'">' . $match . '</a>';
+         
+      }
+      
+   }
+
+
    function Youversion()
    {
       global $REGX, $TMPL;
 
       $data = ($TMPL->tagdata !== '') ? $REGX->unhtmlentities($TMPL->tagdata) : FALSE ;
+      $version = ($TMPL->fetch_param('version') !== FALSE) ? $TMPL->fetch_param('version') : 'niv' ;
 
       // We only run the process if the [youversion] string is foudn in our data
    	if (strpos( $data, '[youversion]') !== FALSE ) {
 
          // Regular Expression match for a string contained within [youversion] tags
-         // We replace it by running a callback function (above class declaration) that creates the link
+         // We replace it by running a function below that creates the link
    		$data = preg_replace_callback(
    		   "/\[youversion\](.+)\[\/youversion\]/",
    		   "create_link",
@@ -164,8 +174,13 @@ class Youversion
 	   $this->return_data = $data;
 
    }
+   
+   
+   
+   
 
 
+   
 
    /**
     * Plugin Usage
@@ -199,16 +214,6 @@ In-template reference:
 
 Link all references in a custom field:
 {exp:youversion version="nkjv"}{content_body}{/exp:youversion}
-
-
-- Parameters
-
-version=""
-Chooses the version/translation of the Bible to link to on YouVersion.com (see available versions and respective abbreviations above). The version will default to New International Version (niv)
-
-class=""
-Define's the anchor tag's class. The class will default to "youversion_link".
-
 
 - Versions / Translations
 

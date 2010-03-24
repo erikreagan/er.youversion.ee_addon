@@ -16,7 +16,7 @@ h3. Examples
 In-template reference:
 <pre><code>{exp:youversion}[youversion]John 3:16[/youversion]{/exp:youversion}</code></pre>
 
-Link all references in a custom field:
+Link all references in a custom field (where your custom field could contain "[youversion]John 3:16[/youversion]"):
 <pre><code>{exp:youversion version="nkjv"}{content_body}{/exp:youversion}</code></pre>
 
 h3. Versions / Translations
@@ -66,6 +66,14 @@ h2. Notes
 
 Remember to spell the verse reference properly and use the commonly accepted format for Bible references (ie. John 3:16). The reference formats that work are "John 3:16" and "John 3:16-18". References that use commas (ie. John 3:16,18) or multi-chapter spans (ie. John 3:16-4:5) will not work and will result in a link that leads to a dead page on YouVersion.com.
 
+
+h2. Parameters
+
+<code>version=""</code>
+Chooses the version/translation of the Bible to link to on YouVersion.com (see available versions and respective abbreviations above). The version will default to New International Version (niv)
+
+<code>class=""</code>
+Define's the anchor tag's class. The class will default to "youversion_link".
 
 
 h2. Acceptable book names
@@ -149,3 +157,21 @@ YouVersion is an online Bible tool that offers 41 Bible versions in over 20 lang
 YouVersion.com has given you the ability to engage with Scripture like never before, and with YouVersion mobile you have access to the Bible, corresponding contributions, reading plans, and online community no matter where you are. Our YouVersion mobile apps put the YouVersion experience in the palm of your hand. Apps are available for the iPhone, iPod Touch, Blackberry, Android, Palm's WebOS, Java, and the mobile web.
 
 Learn more about our mobile Bible applications at "http://youversion.com/mobile":http://youversion.com/mobile
+
+
+h2. Change Log
+
++*Mar 24th, 2010: 1.0.2*+
+
+* Feature: Added "class" parameter for custom defining of anchor tag classes
+* Bug: Multiple lines parsed incorrectly
+* Note: Updated README and usage docs to reflect new "class" parameter
+* Note: Changed most of the code to work with multiple matches within {exp:youversion} tags
+
+*Mar 23rd, 2010: 1.0.1*
+
+* Fixed typo in books array
+
+*Mar 22nd, 2010: 1.0.0*
+
+* Initial Release
