@@ -7,6 +7,8 @@ h2. Instructions
 
 Copy <code>pi.youversion.php</code> to your <code>system/plugins</code> directory
 
+Also, there's a great "how-to" by "Jason Isaacs":http://twitter.com/jasonisaacs on the YouVersion support board that walks through giving your users [youversion] buttons on the edit page. You can find that here: "How to install and best use the ExpressionEngine/Youversion Plugin":http://support.youversion.com/entries/132775-how-to-install-and-best-use-the-expressionengine-youversion-plugin
+
 h2. Usage
 
 By wrapping your content in <code>{exp:youversion}</code> tags you can automatically link up scripture references to youversion.com.
