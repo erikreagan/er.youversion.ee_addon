@@ -165,7 +165,11 @@ Learn more about our mobile Bible applications at "http://youversion.com/mobile"
 
 h2. Change Log
 
-+*Mar 24th, 2010: 1.0.2*+
++*Mar 27th, 2010: 1.1.0*+
+
+* Feature: Now works in both EE 1.6.x and EE 2.x
+
+*Mar 24th, 2010: 1.0.2*
 
 * Feature: Added "class" parameter for custom defining of anchor tag classes
 * Bug: Multiple lines parsed incorrectly
