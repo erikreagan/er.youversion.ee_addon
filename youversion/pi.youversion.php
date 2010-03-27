@@ -1,5 +1,4 @@
 <?php
-
 // ini_set('display_errors',E_ALL);
 
 /**
@@ -9,18 +8,18 @@
  * system/plugins/ folder in your ExpressionEngine installation.
  *
  * @package Youversion
- * @version 1.0.2
+ * @version 1.1.0
  * @author Erik Reagan http://erikreagan.com
- * @author Dan Frist original author of WP plugin
+ * @author Dan Frist original author of WP plugin (not much original code remains in this port)
  * @copyright Copyright (c) 2010 Erik Reagan
  * @see http://github.com/erikreagan/youversion
  */
 
 $plugin_info       = array(
    'pi_name'        => 'YouVersion',
-   'pi_version'     => '1.0.2',
-   'pi_author'      => 'Dan Frist, Erik Reagan',
-   'pi_author_url'  => 'http://youversion.com',
+   'pi_version'     => '1.1.0',
+   'pi_author'      => 'Erik Reagan, Dan Frist',
+   'pi_author_url'  => 'http://erikreagan.com',
    'pi_description' => 'Automatically link scripture references to YouVersion',
    'pi_usage'       => Youversion::usage()
    );
@@ -30,14 +29,12 @@ $plugin_info       = array(
  *
  * @param      string
  * @access     public
- * @since      1.1.0
+ * @since      1.0.2
  * @return     string
  */
 function create_link($match)
 {
    
-   global $TMPL;
-
    // List of books and their abbreviations  (OSIS)
    $osis = array(
       'Genesis'         => 'Gen',
@@ -108,11 +105,14 @@ function create_link($match)
       'Revelation'      => 'Rev'
    );
    
+   // Run the correct function based on our app version
+   if (version_compare(APP_VER, '2', '<'))
+   {
+      $data_array = Youversion::ee_one_params();
+   } else {
+      $data_array = Youversion::ee_two_params();
+   }
    
-   // Define the class to be added to our anchor tag
-   $class = ($TMPL->fetch_param('class') !== FALSE) ? $TMPL->fetch_param('class') : 'youversion_link' ;
-   // Define the version to be used
-   $version = ($TMPL->fetch_param('version') !== FALSE) ? $TMPL->fetch_param('version') : 'niv' ;
    
    // Change book name to abbreviated book name
 	foreach($osis as $key => $value)
@@ -131,10 +131,9 @@ function create_link($match)
 	$reference_link = str_replace( ' ', '', $reference_link );
 
 	// Put the text in the tag in a link with our class and return the string
-	return '<a href="http://www.youversion.com/bible/' . $version . '/' . $reference_link . '" class="'.$class.'">' . $match[1] . '</a>';
+	return '<a href="http://www.youversion.com/bible/' . $data_array['version'] . '/' . $reference_link . '" class="'.$data_array['class'].'">' . $match[1] . '</a>';
       
 }
-
 
 
 class Youversion
@@ -144,24 +143,118 @@ class Youversion
 
    function Youversion()
    {
-      global $REGX, $TMPL;
-
-      $data = ($TMPL->tagdata !== '') ? $REGX->unhtmlentities($TMPL->tagdata) : FALSE ;
-
+      
+      // Run the correct function based on our app version
+      if (version_compare(APP_VER, '2', '<'))
+      {
+         $tagdata = $this->ee_one_tagdata();
+      } else {
+         $tagdata = $this->ee_two_tagdata();
+      }
+      
       // We only run the process if the [youversion] string is foudn in our data
-   	if (strpos( $data, '[youversion]') !== FALSE ) {
+   	if (strpos( $tagdata, '[youversion]') !== FALSE ) {
 
          // Regular Expression match for a string contained within [youversion] tags
          // We replace it by running a callback function (above class declaration) that creates the link
-   		$data = preg_replace_callback(
+   		$tagdata = preg_replace_callback(
    		   "/\[youversion\](.+)\[\/youversion\]/",
    		   "create_link",
-   		   $data
+   		   $tagdata
    		   );
       	
 		}
 		   
-	   $this->return_data = $data;
+	   $this->return_data = $tagdata;
+
+   }
+
+
+
+   /**
+    * Get tagdata for callback above class (EE2.x)
+    *
+    * @since      1.1.0
+    * @return     array
+    */
+
+   function ee_two_tagdata()
+   {
+
+      $this->EE =& get_instance();
+      // Directly load the typography helper from CI
+      require BASEPATH . 'helpers/typography_helper' . EXT;
+      
+      $tagdata = ($this->EE->TMPL->tagdata !== '') ? entity_decode($this->EE->TMPL->tagdata) : FALSE ;
+
+      return $tagdata;
+
+   }
+
+
+
+   /**
+    * Get tagdata for callback above class (EE1.6.x)
+    *
+    * @since      1.1.0
+    * @return     array
+    */
+
+   function ee_one_tagdata()
+   {
+
+      global $REGX, $TMPL;
+
+      $tagdata = ($TMPL->tagdata !== '') ? $REGX->unhtmlentities($TMPL->tagdata) : FALSE ;
+
+      return $tagdata;
+
+   }
+
+
+
+
+   /**
+    * Get params for callback above class (EE2.x)
+    *
+    * @since      1.1.0
+    * @return     array
+    */
+
+   function ee_two_params()
+   {
+
+      $EE =& get_instance();
+
+      // Define the class to be added to our anchor tag
+      $data_array['class'] = ($EE->TMPL->fetch_param('class') !== FALSE) ? $EE->TMPL->fetch_param('class') : 'youversion_link' ;
+      // Define the version to be used
+      $data_array['version'] = ($EE->TMPL->fetch_param('version') !== FALSE) ? $EE->TMPL->fetch_param('version') : 'niv' ;
+
+      return $data_array;
+
+   }
+
+
+
+   /**
+    * Get params for callback above class (EE1.6.x)
+    *
+    * @since      1.1.0
+    * @return     array
+    */
+
+   function ee_one_params()
+   {
+
+      global $TMPL;
+
+      // Define the class to be added to our anchor tag
+      $data_array['class'] = ($TMPL->fetch_param('class') !== FALSE) ? $TMPL->fetch_param('class') : 'youversion_link' ;
+      // Define the version to be used
+      $data_array['version'] = ($TMPL->fetch_param('version') !== FALSE) ? $TMPL->fetch_param('version') : 'niv' ;
+
+      return $data_array;
 
    }
 
