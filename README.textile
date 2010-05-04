@@ -13,7 +13,7 @@ Also, there's a great "how-to" by "Jason Isaacs":http://twitter.com/jasonisaacs 
 
 h2. Usage
 
-By wrapping your content in <code>{exp:youversion}</code> tags you can automatically link up scripture references to youversion.com.
+By wrapping your content in <code>{exp:youversion}</code> tags you can automatically link up scripture references to youversion.com. Separate multiple references by a comma and a space (see example below).
 
 h3. Examples
 
@@ -22,6 +22,9 @@ In-template reference:
 
 Link all references in a custom field (where your custom field could contain "[youversion]John 3:16[/youversion]"):
 <pre><code>{exp:youversion version="nkjv"}{content_body}{/exp:youversion}</code></pre>
+
+Use a comma+space delimiter for multiple references within a single <code>[youversion]</code> tag pair:
+<pre><code>{exp:youversion}[youversion]John 3:16, 1 Timothy 1:7[/youversion]{/exp:youversion}</code></pre>
 
 h3. Versions / Translations
 
@@ -165,7 +168,12 @@ Learn more about our mobile Bible applications at "http://youversion.com/mobile"
 
 h2. Change Log
 
-+*Mar 27th, 2010: 1.1.0*+
++*May 4th, 2010: 1.2.0*+
+
+* Feature: Parses multiple scriptures inside a single [youversion] tag pair (by way of comma delimitation) - see Usage for details
+
+
+*Mar 27th, 2010: 1.1.0*
 
 * Feature: Now works in both EE 1.6.x and EE 2.x
 

@@ -8,7 +8,7 @@
  * system/plugins/ folder in your ExpressionEngine installation.
  *
  * @package Youversion
- * @version 1.1.0
+ * @version 1.2.0
  * @author Erik Reagan http://erikreagan.com
  * @author Dan Frist original author of WP plugin (not much original code remains in this port)
  * @copyright Copyright (c) 2010 Erik Reagan
@@ -17,7 +17,7 @@
 
 $plugin_info       = array(
    'pi_name'        => 'YouVersion',
-   'pi_version'     => '1.1.0',
+   'pi_version'     => '1.2.0',
    'pi_author'      => 'Erik Reagan, Dan Frist',
    'pi_author_url'  => 'http://erikreagan.com',
    'pi_description' => 'Automatically link scripture references to YouVersion',
@@ -113,25 +113,34 @@ function create_link($match)
       $data_array = Youversion::ee_two_params();
    }
    
+   // Turn our preg match into pieces (even if it's just a single scripture reference)
+   $pieces = explode($data_array['delimiter'],$match[1]);
    
-   // Change book name to abbreviated book name
-	foreach($osis as $key => $value)
-	{
-		if(stristr($match[1], $key) !== FALSE )
-		{
-			$reference_link = str_replace($key, $value . '/', $match[1]);
-			break;
-		}
-	}
+   foreach ($pieces as $bible_key => $scripture) {
+   
+      // Change book name to abbreviated book name
+   	foreach($osis as $key => $value)
+   	{
+   		if(stristr($scripture, $key) !== FALSE )
+   		{
+   			$link_pieces[$bible_key] = str_replace($key, $value . '/', $scripture);   			
+   			break;
+   		}
+   	}
+   	
+   	// Change semicolon (:) to a forward slash (/)
+   	$link = str_replace( ':', '/', $link_pieces[$bible_key] );
 
-	// Change semicolon (:) to a forward slash (/)
-	$reference_link = str_replace( ':', '/', $reference_link );
-
-	// Remove any spaces
-	$reference_link = str_replace( ' ', '', $reference_link );
-
+   	// Remove any spaces and create link tag
+   	$link_pieces[$bible_key] = '<a href="http://www.youversion.com/bible/' . $data_array['version'] . '/' . str_replace( ' ', '', $link ) . '" class="'.$data_array['class'].'">' . $scripture . '</a>';
+      
+   }
+   
+   // Create full string of scriptures (may be one, may be many)
+   $full_string = implode($data_array['delimiter'],$link_pieces);
+   
 	// Put the text in the tag in a link with our class and return the string
-	return '<a href="http://www.youversion.com/bible/' . $data_array['version'] . '/' . $reference_link . '" class="'.$data_array['class'].'">' . $match[1] . '</a>';
+	return $full_string;
       
 }
 
@@ -230,6 +239,8 @@ class Youversion
       $data_array['class'] = ($EE->TMPL->fetch_param('class') !== FALSE) ? $EE->TMPL->fetch_param('class') : 'youversion_link' ;
       // Define the version to be used
       $data_array['version'] = ($EE->TMPL->fetch_param('version') !== FALSE) ? $EE->TMPL->fetch_param('version') : 'niv' ;
+      // Define our delimiter if applicable
+      $data_array['delimiter'] = ($EE->TMPL->fetch_param('delimiter') !== FALSE) ? $EE->TMPL->fetch_param('delimiter') : ', ' ;
 
       return $data_array;
 
@@ -253,7 +264,9 @@ class Youversion
       $data_array['class'] = ($TMPL->fetch_param('class') !== FALSE) ? $TMPL->fetch_param('class') : 'youversion_link' ;
       // Define the version to be used
       $data_array['version'] = ($TMPL->fetch_param('version') !== FALSE) ? $TMPL->fetch_param('version') : 'niv' ;
-
+      // Define our delimiter if applicable
+      $data_array['delimiter'] = ($TMPL->fetch_param('delimiter') !== FALSE) ? $TMPL->fetch_param('delimiter') : ', ' ;
+      
       return $data_array;
 
    }
@@ -292,6 +305,9 @@ In-template reference:
 
 Link all references in a custom field:
 {exp:youversion version="nkjv"}{content_body}{/exp:youversion}
+
+Use a comma+space delimiter for multiple references within a single [youversion] tag pair:
+{exp:youversion}[youversion]John 3:16, 1 Timothy 1:7[/youversion]{/exp:youversion}
 
 
 - Parameters
