@@ -132,7 +132,7 @@ function create_link($match)
    	$link = str_replace( ':', '/', $link_pieces[$bible_key] );
 
    	// Remove any spaces and create link tag
-   	$link_pieces[$bible_key] = '<a href="http://www.youversion.com/bible/' . $data_array['version'] . '/' . str_replace( ' ', '', $link ) . '" class="'.$data_array['class'].'">' . $scripture . '</a>';
+   	$link_pieces[$bible_key] = '<a href="http://www.bible.com/bible/' . $data_array['version'] . '/' . str_replace( ' ', '', $link ) . '" class="'.$data_array['class'].'">' . $scripture . '</a>';
       
    }
    
