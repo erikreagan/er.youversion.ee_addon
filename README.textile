@@ -168,6 +168,11 @@ Learn more about our mobile Bible applications at "http://youversion.com/mobile"
 
 h2. Change Log
 
++*May 9th, 2014: 1.2.1*+
+
+* Adjusted URLs output by plugin to match the updated YouVersion url (bible.com)
+
+
 +*May 4th, 2010: 1.2.0*+
 
 * Feature: Parses multiple scriptures inside a single [youversion] tag pair (by way of comma delimitation) - see Usage for details
